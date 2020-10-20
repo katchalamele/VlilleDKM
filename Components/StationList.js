@@ -1,5 +1,5 @@
 import React from 'react'
-import {StyleSheet, FlatList} from 'react-native'
+import {StyleSheet, FlatList, TouchableHighlight, View, Platform, TouchableOpacity} from 'react-native'
 import StationItem from './StationItem' 
 import StationMap from './StationMap'
 
@@ -13,16 +13,21 @@ class StationList extends React.Component{
     render(){
         return (
         <FlatList
-        style={styles.ListContainer}
+        ItemSeparatorComponent={ Platform.OS !== 'android' && (({ highlighted }) => ( <View style={styles.separator}/> ))}
+        style={styles.listContainer}
         data={this.props.stations}
         keyExtractor={(item) => item.recordid}
         extraData={this.props.stations[this.props.selected]}
-        renderItem={({item}) => (
+        renderItem={({item, index}) => (
+        <TouchableOpacity
+            onPress={() => this.selectListChanged(item.recordid)}
+        >
             <StationItem 
-            isSelected={item.recordid === this.props.stations[this.props.selected].recordid ? true : false}
-            selectListChanged={this.selectListChanged} 
-            station={item}
-            />
+                isSelected={index === this.props.selected ? true : false}
+                station={item}
+             />
+      </TouchableOpacity>
+            
         )}
         />
         )
@@ -30,8 +35,12 @@ class StationList extends React.Component{
 }
 
 const styles = StyleSheet.create({
-    ListContainer: {
+    listContainer: {
         flex:1
+    },
+    separator: {
+        height: 1,
+        backgroundColor: '#000000'
     }
 })
 

@@ -8,7 +8,7 @@ class StationMap extends React.Component{
     }
 
     goto(region){
-        this.map.animateToRegion(region)
+        this.map.animateToRegion(region, 2000)
     }
 
     render(){
@@ -26,10 +26,11 @@ class StationMap extends React.Component{
             {this.props.stations.map( station => {
                 return (
                 <MapView.Marker
-                key={station.recordid}
-                coordinate={{latitude:station.fields.localisation[0], longitude:station.fields.localisation[1]}}
-                title={station.fields.nom}
-                description={station.fields.adresse}
+                    key={station.recordid}
+                    coordinate={{latitude:station.fields.localisation[0], longitude:station.fields.localisation[1]}}
+                    title={station.fields.nom}
+                    description={station.fields.adresse}
+                    pinColor="#ee3331"
                 />
                 )
             })}
